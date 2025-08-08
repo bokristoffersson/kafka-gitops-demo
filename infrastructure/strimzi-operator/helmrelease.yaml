@@ -1,0 +1,36 @@
+apiVersion: helm.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: strimzi-kafka-operator
+  namespace: strimzi-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: strimzi-kafka-operator
+      version: "0.39.0"
+      sourceRef:
+        kind: HelmRepository
+        name: strimzi
+        namespace: strimzi-system
+      interval: 1m
+  values:
+    # Övervaka alla namespaces (eller specificera kafka namespace)
+    watchAnyNamespace: false
+    watchNamespaces: 
+      - kafka
+    
+    # Resurs-begränsningar för lokal miljö
+    resources:
+      limits:
+        cpu: 200m
+        memory: 384Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    
+    # Loggnivå
+    logLevel: INFO
+    
+    # Feature gates (aktivera önskade funktioner)
+    featureGates: "+UseKRaft,+KafkaNodePools"

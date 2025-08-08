@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-metrics
+  namespace: kafka
+data:
+  kafka-metrics-config.yml: |
+    # Kafka JMX metrics configuration
+    lowercaseOutputName: true
+    rules:
+    - pattern: "kafka.cluster<type=(.+), name=(.+)><>Value"
+      name: kafka_cluster_$1_$2
+    - pattern: "kafka.server<type=(.+), name=(.+)><>Count"
+      name: kafka_server_$1_$2
+    - pattern: "kafka.server<type=(.+), name=(.+)><>Value"
+      name: kafka_server_$1_$2
+    - pattern: "kafka.network<type=(.+), name=(.+)><>Count"
+      name: kafka_network_$1_$2
+    - pattern: "kafka.log<type=(.+), name=(.+)><>Count"
+      name: kafka_log_$1_$2
+  zookeeper-metrics-config.yml: |
+    # Zookeeper JMX metrics configuration  
+    lowercaseOutputName: true
+    rules:
+    - pattern: "org.apache.ZooKeeperService<name0=ReplicatedServer_id(\\d+)><>(\\w+)"
+      name: "zookeeper_$2"
+    - pattern: "org.apache.ZooKeeperService<name0=ReplicatedServer_id(\\d+), name1=replica.(\\d+)><>(\\w+)"
+      name: "zookeeper_$3"
+      labels:
+        replicaId: "$2"

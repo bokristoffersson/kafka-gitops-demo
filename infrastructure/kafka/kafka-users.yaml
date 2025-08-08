@@ -1,0 +1,56 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: demo-user
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  authentication:
+    type: tls
+  authorization:
+    type: simple
+    acls:
+      # Läs från demo-topic
+      - resource:
+          type: topic
+          name: demo-topic
+        operations: ["Read", "Describe"]
+        host: "*"
+      # Skriv till demo-topic
+      - resource:
+          type: topic
+          name: demo-topic
+        operations: ["Write", "Create", "Describe"]
+        host: "*"
+      # Consumer groups
+      - resource:
+          type: group
+          name: demo-group
+        operations: ["Read"]
+        host: "*"
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: test-user
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      # Full access för test
+      - resource:
+          type: topic
+          name: "*"
+        operations: ["All"]
+        host: "*"
+      - resource:
+          type: group
+          name: "*"
+        operations: ["All"]
+        host: "*"
