@@ -13,5 +13,4 @@ spec:
   prune: true
   wait: true
   timeout: 10m
-  dependsOn:
-    - name: strimzi-operator
+  
