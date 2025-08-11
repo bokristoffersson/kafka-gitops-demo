@@ -1,8 +1,8 @@
-apiVersion: source.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: strimzi
-  namespace: strimzi-system
+  namespace: kafka
 spec:
   interval: 1h0m0s
   url: https://strimzi.io/charts/

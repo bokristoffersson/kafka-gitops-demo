@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: kafka
 
 resources:
-  - metrics-config.yaml
   - kafka-cluster.yaml
   - kafka-topics.yaml
   - kafka-users.yaml

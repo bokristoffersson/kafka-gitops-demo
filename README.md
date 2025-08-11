@@ -5,6 +5,10 @@ Create k3d cluster
 ```
 k3d cluster create kafka-demo --port "8080:80@loadbalancer" --port "8443:443@loadbalancer"
 ```
+Install flux crds... (Might be done when bootstraping, but if you would like to test separate files you need to install the flux CRDs)
+```
+flux install
+```
 
 For FluxCD you need to fork this repo, see [Flux bootstrap for GitHub](https://fluxcd.io/flux/installation/bootstrap/github/)
 ```
