@@ -1,10 +1,12 @@
 ---
-apiVersion: kustomize.config.k8s.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: kafka-infrastructure
   namespace: flux-system
 spec:
+  dependsOn: 
+    - name: strimzi-cluster-operator
   interval: 10m
   sourceRef:
     kind: GitRepository
@@ -13,10 +15,8 @@ spec:
   prune: true
   wait: true
   timeout: 10m
-  dependsOn: 
-    - name: strimzi-cluster-operator
 ---
-apiVersion: kustomize.config.k8s.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: strimzi-cluster-operator
@@ -28,5 +28,4 @@ spec:
     name: flux-system
   path: "./infrastructure/strimzi-operator"
   prune: true
-  wait: true
   timeout: 10m
