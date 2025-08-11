@@ -5,7 +5,7 @@ Create k3d cluster
 ```
 k3d cluster create kafka-demo --port "8080:80@loadbalancer" --port "8443:443@loadbalancer"
 ```
-Install flux crds... (Might be done when bootstraping, but if you would like to test separate files you need to install the flux CRDs)
+Install flux crds... (Will be done when bootstraping, but if you would like to test separate files you need to install the flux CRDs)
 ```
 flux install
 ```
@@ -26,4 +26,15 @@ flux bootstrap github \
     --branch=main \
     --personal \
     --path=clusters/local
+```
+
+## Test
+Connect a producer
+```
+kubectl  run kafka-producer -ti --image=quay.io/strimzi/kafka:0.47.0-kafka-4.0.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --bootstrap-server my-cluster-kafka-bootstrap:9092 --topic demo-topic
+```
+
+Connect a consumer
+```
+kubectl run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.47.0-kafka-4.0.0 --rm=true --restart=Never -- bin/kafka-console-consumer.sh --bootstrap-server my-cluster-kafka-bootstrap:9092 --topic demo-topic --from-beginning
 ```
