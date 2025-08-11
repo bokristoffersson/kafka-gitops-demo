@@ -28,6 +28,12 @@ flux bootstrap github \
     --path=clusters/local
 ```
 
+Watch the local reconciliation:
+```
+flux get kustomizations --watch
+```
+
+
 ## Test
 Connect a producer
 ```
